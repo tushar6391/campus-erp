@@ -186,8 +186,6 @@ DB_HOST=localhost
 DB_PORT=3306
 ```
 
-> ⚠️ Never commit `.env` to GitHub. It is already in `.gitignore`.
-
 ---
 
 ## 📡 API Endpoints
@@ -250,8 +248,6 @@ Notice              → created_by (FK), title, content, target_role
 - **JWT Authentication** — Short-lived access token (60 min) + long-lived refresh token (7 days). Token contains user role for frontend routing.
 - **Role-Based Access** — Custom `IsAdmin`, `IsFaculty`, `IsStudent` permission classes in DRF.
 - **pymongo not djongo** — Used `mysqlclient` directly due to Python 3.11 compatibility.
-- **Axios Interceptor** — Auto-attaches JWT token to every React API request.
-- **Context API** — Global auth state in React without Redux.
 
 ---
 
@@ -266,16 +262,6 @@ Test accounts (set up locally via admin panel):
 
 ---
 
-## 📌 Future Improvements
-
-- [ ] Assignment submission by students (file upload)
-- [ ] Email notifications for new notices
-- [ ] CGPA calculator
-- [ ] Faculty mobile app
-- [ ] Deploy to cloud (Render/Railway + PlanetScale)
-- [ ] Real-time notifications using Django Channels
-
----
 
 ## 👨‍💻 Developer
 
@@ -287,6 +273,3 @@ Sardar Patel Institute of Technology (SPIT), Mumbai
 
 ---
 
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
