@@ -12,13 +12,12 @@ A full-stack **Campus Enterprise Resource Planning (ERP) System** built as a fin
 
 ## 📸 Screenshots
 
-| Login | Student Dashboard | Faculty Dashboard |
-|---|---|---|
-| *(Add screenshot)* | *(Add screenshot)* | *(Add screenshot)* |
-
-| Admin Dashboard | Flutter Mobile App |
-|---|---|
-| *(Add screenshot)* | *(Add screenshot)* |
+![Web Login](dashboard.png)
+![Dashboard](dashboard.png)
+![Dashboard](dashboard.png)
+![Dashboard](dashboard.png)
+![Dashboard](dashboard.png)
+![Dashboard](dashboard.png)
 
 ---
 
