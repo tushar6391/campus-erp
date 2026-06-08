@@ -4,12 +4,6 @@ A full-stack **Campus Enterprise Resource Planning (ERP) System** built as a fin
 
 ---
 
-## 🚀 Live Demo
-
-> Run locally using setup instructions below.
-
----
-
 ## 📸 Screenshots
 
 ![Web Login](web_login_page.png)
