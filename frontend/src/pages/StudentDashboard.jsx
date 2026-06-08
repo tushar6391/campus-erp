@@ -2,16 +2,12 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import {
-  getStudentProfile,
-  getAttendanceSummary,
-  getAssignments,
-  getResults,
-  getNotices,
-  getTimetable
+  getStudentProfile, getAttendanceSummary, getAssignments,
+  getResults, getNotices, getTimetable
 } from '../services/api';
 
 export default function StudentDashboard() {
-  const { user, logout } = useAuth();
+  const { logout } = useAuth();
   const navigate = useNavigate();
 
   const [profile, setProfile] = useState(null);
@@ -23,12 +19,12 @@ export default function StudentDashboard() {
   const [activeTab, setActiveTab] = useState('profile');
 
   useEffect(() => {
-    getStudentProfile().then(r => setProfile(r.data));
-    getAttendanceSummary().then(r => setAttendance(r.data));
-    getAssignments().then(r => setAssignments(r.data));
-    getResults().then(r => setResults(r.data));
-    getNotices().then(r => setNotices(r.data));
-    getTimetable().then(r => setTimetable(r.data));
+    getStudentProfile().then(r => setProfile(r.data)).catch(() => {});
+    getAttendanceSummary().then(r => setAttendance(r.data)).catch(() => {});
+    getAssignments().then(r => setAssignments(r.data)).catch(() => {});
+    getResults().then(r => setResults(r.data)).catch(() => {});
+    getNotices().then(r => setNotices(r.data)).catch(() => {});
+    getTimetable().then(r => setTimetable(r.data)).catch(() => {});
   }, []);
 
   const handleLogout = () => { logout(); navigate('/login'); };
@@ -36,34 +32,44 @@ export default function StudentDashboard() {
   const tabs = ['profile','attendance','assignments','results','notices','timetable'];
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      {/* Navbar */}
-      <nav className="bg-blue-700 text-white px-6 py-4 flex justify-between items-center">
-        <h1 className="text-xl font-bold">Campus ERP — Student</h1>
-        <button onClick={handleLogout} className="bg-white text-blue-700 px-4 py-1 rounded font-medium hover:bg-gray-100">
-          Logout
-        </button>
-      </nav>
+    <div className="min-h-screen bg-gray-100 flex">
 
-      {/* Tabs */}
-      <div className="flex gap-2 px-6 py-4 bg-white shadow">
-        {tabs.map(tab => (
+      {/* Sidebar */}
+      <aside className="w-48 bg-blue-700 text-white flex flex-col">
+        <div className="p-4 border-b border-blue-600">
+          <h1 className="text-lg font-bold">Campus ERP</h1>
+          <p className="text-blue-300 text-xs">Student Portal</p>
+        </div>
+
+        <nav className="flex-1 p-2 flex flex-col gap-1 mt-2">
+          {tabs.map(tab => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`w-full text-left px-4 py-2 rounded capitalize text-sm ${
+                activeTab === tab
+                  ? 'bg-white text-blue-700 font-semibold'
+                  : 'text-blue-100 hover:bg-blue-600'
+              }`}
+            >
+              {tab}
+            </button>
+          ))}
+        </nav>
+
+        <div className="p-3 border-t border-blue-600">
           <button
-            key={tab}
-            onClick={() => setActiveTab(tab)}
-            className={`px-4 py-2 rounded capitalize font-medium ${
-              activeTab === tab ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'
-            }`}
+            onClick={handleLogout}
+            className="w-full px-4 py-2 bg-white text-blue-700 rounded text-sm font-medium hover:bg-gray-100"
           >
-            {tab}
+            Logout
           </button>
-        ))}
-      </div>
+        </div>
+      </aside>
 
       {/* Content */}
-      <div className="p-6">
+      <main className="flex-1 p-6">
 
-        {/* Profile */}
         {activeTab === 'profile' && profile && (
           <div className="bg-white rounded-lg shadow p-6 max-w-md">
             <h2 className="text-xl font-bold mb-4 text-blue-700">My Profile</h2>
@@ -76,7 +82,6 @@ export default function StudentDashboard() {
           </div>
         )}
 
-        {/* Attendance */}
         {activeTab === 'attendance' && (
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-xl font-bold mb-4 text-blue-700">Attendance Summary</h2>
@@ -105,7 +110,6 @@ export default function StudentDashboard() {
           </div>
         )}
 
-        {/* Assignments */}
         {activeTab === 'assignments' && (
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-xl font-bold mb-4 text-blue-700">Assignments</h2>
@@ -120,7 +124,6 @@ export default function StudentDashboard() {
           </div>
         )}
 
-        {/* Results */}
         {activeTab === 'results' && (
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-xl font-bold mb-4 text-blue-700">Results</h2>
@@ -149,7 +152,6 @@ export default function StudentDashboard() {
           </div>
         )}
 
-        {/* Notices */}
         {activeTab === 'notices' && (
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-xl font-bold mb-4 text-blue-700">Notices</h2>
@@ -163,7 +165,6 @@ export default function StudentDashboard() {
           </div>
         )}
 
-        {/* Timetable */}
         {activeTab === 'timetable' && (
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-xl font-bold mb-4 text-blue-700">Timetable</h2>
@@ -190,7 +191,7 @@ export default function StudentDashboard() {
           </div>
         )}
 
-      </div>
+      </main>
     </div>
   );
 }

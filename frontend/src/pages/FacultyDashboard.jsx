@@ -8,29 +8,21 @@ export default function FacultyDashboard() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('profile');
   const [profile, setProfile] = useState(null);
-  const [notices, setNotices] = useState([]);
+  const [message, setMessage] = useState('');
 
-  // assignment form
   const [assignment, setAssignment] = useState({
     title: '', subject: '', description: '', due_date: ''
   });
-
-  // notice form
   const [notice, setNotice] = useState({
     title: '', content: '', target_role: 'all'
   });
-
-  // attendance form
   const [attendance, setAttendance] = useState({
     student_id: '', subject: '', date: '', status: 'present'
   });
 
-  const [message, setMessage] = useState('');
-
- useEffect(() => {
+  useEffect(() => {
     API.get('/faculty/profile/').then(r => setProfile(r.data)).catch(() => {});
-    API.get('/notices/').then(r => setNotices(r.data)).catch(() => {});
-}, []);
+  }, []);
 
   const handleLogout = () => { logout(); navigate('/login'); };
 
@@ -61,27 +53,48 @@ export default function FacultyDashboard() {
   const tabs = ['profile', 'attendance', 'assignments', 'notices'];
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <nav className="bg-green-700 text-white px-6 py-4 flex justify-between items-center">
-        <h1 className="text-xl font-bold">Campus ERP — Faculty</h1>
-        <button onClick={handleLogout} className="bg-white text-green-700 px-4 py-1 rounded font-medium">
-          Logout
-        </button>
-      </nav>
+    <div className="min-h-screen bg-gray-100 flex">
 
-      <div className="flex gap-2 px-6 py-4 bg-white shadow">
-        {tabs.map(tab => (
-          <button key={tab} onClick={() => { setActiveTab(tab); setMessage(''); }}
-            className={`px-4 py-2 rounded capitalize font-medium ${
-              activeTab === tab ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-700'
-            }`}>
-            {tab}
+      {/* Sidebar */}
+      <aside className="w-48 bg-green-700 text-white flex flex-col">
+        <div className="p-4 border-b border-green-600">
+          <h1 className="text-lg font-bold">Campus ERP</h1>
+          <p className="text-green-300 text-xs">Faculty Portal</p>
+        </div>
+
+        <nav className="flex-1 p-2 flex flex-col gap-1 mt-2">
+          {tabs.map(tab => (
+            <button
+              key={tab}
+              onClick={() => { setActiveTab(tab); setMessage(''); }}
+              className={`w-full text-left px-4 py-2 rounded capitalize text-sm ${
+                activeTab === tab
+                  ? 'bg-white text-green-700 font-semibold'
+                  : 'text-green-100 hover:bg-green-600'
+              }`}
+            >
+              {tab}
+            </button>
+          ))}
+        </nav>
+
+        <div className="p-3 border-t border-green-600">
+          <button
+            onClick={handleLogout}
+            className="w-full px-4 py-2 bg-white text-green-700 rounded text-sm font-medium hover:bg-gray-100"
+          >
+            Logout
           </button>
-        ))}
-      </div>
+        </div>
+      </aside>
 
-      <div className="p-6">
-        {message && <p className="mb-4 text-green-700 font-medium bg-green-50 p-3 rounded">{message}</p>}
+      {/* Content */}
+      <main className="flex-1 p-6">
+        {message && (
+          <p className="mb-4 text-green-700 font-medium bg-green-50 p-3 rounded">
+            {message}
+          </p>
+        )}
 
         {/* Profile */}
         {activeTab === 'profile' && profile && (
@@ -92,6 +105,7 @@ export default function FacultyDashboard() {
             <p><span className="font-medium">Employee ID:</span> {profile.employee_id}</p>
             <p><span className="font-medium">Department:</span> {profile.department}</p>
             <p><span className="font-medium">Subject:</span> {profile.subject}</p>
+            <p><span className="font-medium">Phone:</span> {profile.phone || 'N/A'}</p>
           </div>
         )}
 
@@ -167,7 +181,7 @@ export default function FacultyDashboard() {
             </button>
           </div>
         )}
-      </div>
+      </main>
     </div>
   );
 }

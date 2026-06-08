@@ -15,7 +15,6 @@ export default function AdminDashboard() {
     email: '', password: '', full_name: '', roll_no: '',
     department: '', year: 1, semester: 1, phone: ''
   });
-
   const [newFaculty, setNewFaculty] = useState({
     email: '', password: '', full_name: '',
     employee_id: '', department: '', subject: '', phone: ''
@@ -49,32 +48,52 @@ export default function AdminDashboard() {
   const tabs = ['students', 'faculty'];
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <nav className="bg-red-700 text-white px-6 py-4 flex justify-between items-center">
-        <h1 className="text-xl font-bold">Campus ERP — Admin</h1>
-        <button onClick={handleLogout} className="bg-white text-red-700 px-4 py-1 rounded font-medium">
-          Logout
-        </button>
-      </nav>
+    <div className="min-h-screen bg-gray-100 flex">
 
-      <div className="flex gap-2 px-6 py-4 bg-white shadow">
-        {tabs.map(tab => (
-          <button key={tab} onClick={() => { setActiveTab(tab); setMessage(''); }}
-            className={`px-4 py-2 rounded capitalize font-medium ${
-              activeTab === tab ? 'bg-red-600 text-white' : 'bg-gray-200 text-gray-700'
-            }`}>
-            {tab}
+      {/* Sidebar */}
+      <aside className="w-48 bg-red-700 text-white flex flex-col">
+        <div className="p-4 border-b border-red-600">
+          <h1 className="text-lg font-bold">Campus ERP</h1>
+          <p className="text-red-300 text-xs">Admin Portal</p>
+        </div>
+
+        <nav className="flex-1 p-2 flex flex-col gap-1 mt-2">
+          {tabs.map(tab => (
+            <button
+              key={tab}
+              onClick={() => { setActiveTab(tab); setMessage(''); }}
+              className={`w-full text-left px-4 py-2 rounded capitalize text-sm ${
+                activeTab === tab
+                  ? 'bg-white text-red-700 font-semibold'
+                  : 'text-red-100 hover:bg-red-600'
+              }`}
+            >
+              {tab}
+            </button>
+          ))}
+        </nav>
+
+        <div className="p-3 border-t border-red-600">
+          <button
+            onClick={handleLogout}
+            className="w-full px-4 py-2 bg-white text-red-700 rounded text-sm font-medium hover:bg-gray-100"
+          >
+            Logout
           </button>
-        ))}
-      </div>
+        </div>
+      </aside>
 
-      <div className="p-6">
-        {message && <p className="mb-4 font-medium bg-green-50 text-green-700 p-3 rounded">{message}</p>}
+      {/* Content */}
+      <main className="flex-1 p-6">
+        {message && (
+          <p className="mb-4 font-medium bg-green-50 text-green-700 p-3 rounded">
+            {message}
+          </p>
+        )}
 
         {/* Students */}
         {activeTab === 'students' && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Add Student Form */}
             <div className="bg-white rounded-lg shadow p-6">
               <h2 className="text-xl font-bold mb-4 text-red-700">Add Student</h2>
               {['email','password','full_name','roll_no','department','phone'].map(field => (
@@ -98,7 +117,6 @@ export default function AdminDashboard() {
               </button>
             </div>
 
-            {/* Student List */}
             <div className="bg-white rounded-lg shadow p-6">
               <h2 className="text-xl font-bold mb-4 text-red-700">All Students ({students.length})</h2>
               {students.map(s => (
@@ -114,7 +132,6 @@ export default function AdminDashboard() {
         {/* Faculty */}
         {activeTab === 'faculty' && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Add Faculty Form */}
             <div className="bg-white rounded-lg shadow p-6">
               <h2 className="text-xl font-bold mb-4 text-red-700">Add Faculty</h2>
               {['email','password','full_name','employee_id','department','subject','phone'].map(field => (
@@ -130,7 +147,6 @@ export default function AdminDashboard() {
               </button>
             </div>
 
-            {/* Faculty List */}
             <div className="bg-white rounded-lg shadow p-6">
               <h2 className="text-xl font-bold mb-4 text-red-700">All Faculty ({faculty.length})</h2>
               {faculty.map(f => (
@@ -142,7 +158,7 @@ export default function AdminDashboard() {
             </div>
           </div>
         )}
-      </div>
+      </main>
     </div>
   );
 }
