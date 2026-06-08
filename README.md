@@ -13,7 +13,7 @@ A full-stack **Campus Enterprise Resource Planning (ERP) System** built as a fin
 ## 📸 Screenshots
 
 ![Web Login](web_login_page.png)
-![Dashboard](dashboard.png)
+![Student Profile](student_profile_page.png)
 ![Dashboard](dashboard.png)
 ![Dashboard](dashboard.png)
 ![Dashboard](dashboard.png)
